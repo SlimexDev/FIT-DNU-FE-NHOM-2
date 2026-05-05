@@ -4,9 +4,12 @@
  */
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Dọn dẹp localStorage cũ (nếu có) để tránh xung đột
+  localStorage.removeItem("foodieAdmin");
+
   // Nếu đã đăng nhập thì tự động chuyển sang trang admin
   if (sessionStorage.getItem("foodieAdmin")) {
-    window.location.href = "admin.html";
+    window.location.replace("admin.html");
     return;
   }
 
@@ -53,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
           // Chuyển hướng sau một khoảng trễ nhỏ để kịp xem thông báo
           setTimeout(() => {
-            window.location.href = "admin.html";
+            window.location.replace("admin.html");
           }, 1000);
         } else {
           showToast("Tên đăng nhập hoặc mật khẩu không đúng!", "error");

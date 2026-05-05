@@ -204,7 +204,8 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       if (confirm("Bạn có chắc chắn muốn đăng xuất?")) {
         sessionStorage.removeItem("foodieAdmin");
-        window.location.href = "login.html";
+        localStorage.removeItem("foodieAdmin"); // Xóa luôn localStorage cũ (nếu còn sót lại từ phiên bản trước)
+        window.location.replace("login.html"); // Dùng replace để người dùng không bấm nút Back quay lại admin được
       }
     });
   }
