@@ -6,12 +6,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   // Dọn dẹp localStorage cũ (nếu có) để tránh xung đột
   localStorage.removeItem("foodieAdmin");
-
-  // Nếu đã đăng nhập thì tự động chuyển sang trang admin
-  if (sessionStorage.getItem("foodieAdmin")) {
-    window.location.replace("admin.html");
-    return;
-  }
+  sessionStorage.removeItem("foodieAdmin");
 
   const loginForm = document.getElementById("login-form");
   if (loginForm) {
@@ -47,16 +42,16 @@ document.addEventListener("DOMContentLoaded", () => {
         if (account) {
           showToast("Đăng nhập thành công!", "success");
           
-          // Lưu thông tin (id, username, role) vào sessionStorage
-          sessionStorage.setItem("foodieAdmin", JSON.stringify({
+          // Mã hóa thông tin thành chuỗi base64 để truyền an toàn qua URL
+          const token = btoa(JSON.stringify({
             id: account.id,
             username: account.username,
             role: account.role || "admin"
           }));
 
-          // Chuyển hướng sau một khoảng trễ nhỏ để kịp xem thông báo
+          // Chuyển hướng sang admin.html kèm theo token
           setTimeout(() => {
-            window.location.replace("admin.html");
+            window.location.replace(`admin.html?token=${token}`);
           }, 1000);
         } else {
           showToast("Tên đăng nhập hoặc mật khẩu không đúng!", "error");

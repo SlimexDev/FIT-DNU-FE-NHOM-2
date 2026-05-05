@@ -189,11 +189,28 @@ function dangKySuKienAdmin() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  // === Đọc Token từ URL (khi vừa từ trang login sang) ===
+  const urlParams = new URLSearchParams(window.location.search);
+  const token = urlParams.get('token');
+  
+  if (token) {
+    try {
+      // Giải mã token và lưu vào sessionStorage (của riêng admin.html)
+      const accountData = atob(token);
+      sessionStorage.setItem("foodieAdmin", accountData);
+      
+      // Xóa token khỏi thanh URL để giao diện gọn gàng và an toàn hơn
+      window.history.replaceState({}, document.title, window.location.pathname);
+    } catch (e) {
+      console.error("Token không hợp lệ");
+    }
+  }
+
   // === Kiểm tra đăng nhập (Authentication) ===
   const adminData = sessionStorage.getItem("foodieAdmin");
   if (!adminData) {
     // Nếu chưa đăng nhập, chuyển hướng về trang login
-    window.location.href = "login.html";
+    window.location.replace("login.html");
     return; // Dừng việc thực thi script còn lại
   }
 
