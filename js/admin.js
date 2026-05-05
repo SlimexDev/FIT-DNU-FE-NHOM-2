@@ -190,7 +190,7 @@ function dangKySuKienAdmin() {
 
 document.addEventListener("DOMContentLoaded", () => {
   // === Kiểm tra đăng nhập (Authentication) ===
-  const adminData = localStorage.getItem("foodieAdmin");
+  const adminData = sessionStorage.getItem("foodieAdmin");
   if (!adminData) {
     // Nếu chưa đăng nhập, chuyển hướng về trang login
     window.location.href = "login.html";
@@ -203,7 +203,7 @@ document.addEventListener("DOMContentLoaded", () => {
     btnLogout.addEventListener("click", (e) => {
       e.preventDefault();
       if (confirm("Bạn có chắc chắn muốn đăng xuất?")) {
-        localStorage.removeItem("foodieAdmin");
+        sessionStorage.removeItem("foodieAdmin");
         window.location.href = "login.html";
       }
     });

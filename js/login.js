@@ -5,7 +5,7 @@
 
 document.addEventListener("DOMContentLoaded", () => {
   // Nếu đã đăng nhập thì tự động chuyển sang trang admin
-  if (localStorage.getItem("foodieAdmin")) {
+  if (sessionStorage.getItem("foodieAdmin")) {
     window.location.href = "admin.html";
     return;
   }
@@ -44,8 +44,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (account) {
           showToast("Đăng nhập thành công!", "success");
           
-          // Lưu thông tin (id, username, role) vào localStorage
-          localStorage.setItem("foodieAdmin", JSON.stringify({
+          // Lưu thông tin (id, username, role) vào sessionStorage
+          sessionStorage.setItem("foodieAdmin", JSON.stringify({
             id: account.id,
             username: account.username,
             role: account.role || "admin"
