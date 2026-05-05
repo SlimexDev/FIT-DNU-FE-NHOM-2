@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Đăng nhập Quản lý FoodieMenu">
+  <title>FoodieMenu - Đăng Nhập Admin</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body style="display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden;">
+
+  <!-- === FORM ĐĂNG NHẬP === -->
+  <div class="container" style="width: 100%; max-width: 450px; z-index: 10;">
+    <div class="form-glass glass" style="padding: 40px;">
+      <div style="text-align: center; margin-bottom: 30px;">
+        <div style="font-size: 3rem; margin-bottom: 10px;">🍽️</div>
+        <h2 style="font-size: 1.8rem; margin-bottom: 8px;">Đăng Nhập Admin</h2>
+        <p style="color: var(--text-secondary); font-size: 0.95rem;">Quản lý thực đơn FoodieMenu</p>
+      </div>
+
+      <form id="login-form" novalidate>
+        <div class="form-group" style="margin-bottom: 20px;">
+          <label for="username">Tên đăng nhập</label>
+          <input type="text" id="username" placeholder="Nhập tên đăng nhập" required style="padding: 12px 16px;">
+        </div>
+
+        <div class="form-group" style="margin-bottom: 30px;">
+          <label for="password">Mật khẩu</label>
+          <input type="password" id="password" placeholder="Nhập mật khẩu" required style="padding: 12px 16px;">
+        </div>
+
+        <div class="form-actions" style="margin-top: 20px;">
+          <button type="submit" class="btn btn-primary btn-block" id="btn-login" style="padding: 12px; font-size: 1.05rem;">
+            Đăng Nhập
+          </button>
+        </div>
+
+        <div style="text-align: center; margin-top: 20px;">
+          <a href="index.html" style="font-size: 0.9rem; color: var(--text-muted);">&larr; Quay lại trang chủ</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/login.js"></script>
+</body>
+</html>

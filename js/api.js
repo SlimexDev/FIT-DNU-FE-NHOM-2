@@ -169,3 +169,4 @@ const API_BASE_URL = "https://69f9a797c509a40d3aa2f26f.mockapi.io/api/v1";
 // === Khởi tạo các resource API ===
 const productAPI = new APIResource(API_BASE_URL, "dishes");
 const categoryAPI = new APIResource(API_BASE_URL, "categories");
+const accountAPI = new APIResource(API_BASE_URL, "accounts");

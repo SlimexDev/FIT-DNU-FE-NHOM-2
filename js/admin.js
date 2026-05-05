@@ -189,6 +189,27 @@ function dangKySuKienAdmin() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  // === Kiểm tra đăng nhập (Authentication) ===
+  const adminData = localStorage.getItem("foodieAdmin");
+  if (!adminData) {
+    // Nếu chưa đăng nhập, chuyển hướng về trang login
+    window.location.href = "login.html";
+    return; // Dừng việc thực thi script còn lại
+  }
+
+  // === Đăng ký sự kiện Đăng xuất ===
+  const btnLogout = document.getElementById("btn-logout");
+  if (btnLogout) {
+    btnLogout.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (confirm("Bạn có chắc chắn muốn đăng xuất?")) {
+        localStorage.removeItem("foodieAdmin");
+        window.location.href = "login.html";
+      }
+    });
+  }
+
+  // Khởi tạo các sự kiện và tải dữ liệu quản lý
   dangKySuKienAdmin();
   taiDanhSach();
 });
