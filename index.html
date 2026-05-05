@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="FoodieMenu - Thực đơn nhà hàng hiện đại với phong cách Glassmorphism sang trọng">
+  <title>FoodieMenu - Thực Đơn Nhà Hàng</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- === NAVBAR === -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-brand">🍽️ Foodie<span>Menu</span></a>
+      <div class="nav-links">
+        <a href="index.html" class="active">Thực đơn</a>
+        <a href="admin.html">Quản lý</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- === HERO SECTION === -->
+  <section class="hero">
+    <div class="container">
+      <h1>Khám Phá Thực Đơn</h1>
+      <p>Trải nghiệm ẩm thực tuyệt vời với những món ăn được chế biến từ nguyên liệu tươi ngon nhất</p>
+
+      <!-- Thanh tìm kiếm & filter -->
+      <div class="filter-bar glass" id="filter-bar">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="search-input" placeholder="Tìm kiếm món ăn...">
+        </div>
+        <select class="filter-select" id="filter-category">
+          <option value="">Tất cả danh mục</option>
+        </select>
+        <select class="filter-select" id="filter-price">
+          <option value="">Tất cả mức giá</option>
+          <option value="0-50000">Dưới 50.000đ</option>
+          <option value="50000-100000">50.000đ - 100.000đ</option>
+          <option value="100000-200000">100.000đ - 200.000đ</option>
+          <option value="200000-999999999">Trên 200.000đ</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <!-- === PRODUCT GRID === -->
+  <section class="container">
+    <div class="product-grid" id="product-grid">
+      <!-- Sản phẩm sẽ được render bởi JS -->
+    </div>
+  </section>
+
+  <!-- === MODAL CHI TIẾT === -->
+  <div class="modal-overlay" id="product-modal">
+    <div class="modal-content glass">
+      <div class="modal-header">
+        <h2 id="modal-title">Chi tiết món ăn</h2>
+        <button class="modal-close" id="modal-close">✕</button>
+      </div>
+      <div class="modal-body" id="modal-body">
+        <!-- Nội dung modal render bởi JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- === FOOTER === -->
+  <footer class="footer">
+    <div class="container">
+      <p>© 2026 FoodieMenu — Thiết kế bởi Nhóm 2 FIT-DNU</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

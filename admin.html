@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="FoodieMenu Admin - Quản lý thực đơn nhà hàng">
+  <title>FoodieMenu - Quản Lý</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- === NAVBAR === -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-brand">🍽️ Foodie<span>Menu</span></a>
+      <div class="nav-links">
+        <a href="index.html">Thực đơn</a>
+        <a href="admin.html" class="active">Quản lý</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- === ADMIN LAYOUT === -->
+  <div class="admin-layout">
+    <div class="container">
+      <div class="admin-header">
+        <h1>⚙️ Quản Lý Thực Đơn</h1>
+        <p>Thêm, chỉnh sửa và quản lý các món ăn trong nhà hàng</p>
+      </div>
+
+      <div class="admin-grid" style="grid-template-columns: 1fr;">
+        <!-- === FORM THÊM/SỬA === -->
+        <div class="form-glass glass" style="max-width: 800px; margin: 0 auto 30px; width: 100%; position: static;">
+          <h2 id="form-title">➕ Thêm Món Mới</h2>
+          <form id="product-form" novalidate>
+            <input type="hidden" id="product-id">
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+              <div class="form-group">
+                <label for="product-name">Tên món ăn *</label>
+                <input type="text" id="product-name" placeholder="VD: Phở Bò Hà Nội">
+              </div>
+
+              <div class="form-group">
+                <label for="product-price">Giá (VNĐ) *</label>
+                <input type="number" id="product-price" placeholder="VD: 55000" min="1">
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+              <div class="form-group">
+                <label for="product-category">Danh mục *</label>
+                <select id="product-category">
+                  <option value="">-- Chọn danh mục --</option>
+                  <option value="Món chính">Món chính</option>
+                  <option value="Món phụ">Món phụ</option>
+                  <option value="Tráng miệng">Tráng miệng</option>
+                  <option value="Đồ uống">Đồ uống</option>
+                  <option value="Khai vị">Khai vị</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="product-stock">Số lượng tồn kho *</label>
+                <input type="number" id="product-stock" placeholder="VD: 20" min="0">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="product-image">URL Hình ảnh (Không bắt buộc)</label>
+              <input type="url" id="product-image" placeholder="https://example.com/image.jpg">
+              <div class="image-preview" id="image-preview">
+                <span>Xem trước hình ảnh</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="product-description">Mô tả *</label>
+              <textarea id="product-description" rows="3" placeholder="Mô tả chi tiết về món ăn..."></textarea>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary btn-block" id="btn-submit">
+                ➕ Thêm món
+              </button>
+              <button type="button" class="btn btn-secondary" id="btn-cancel" style="display:none;">
+                ✕ Hủy
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- === TÌM KIẾM & LỌC (ADMIN) === -->
+        <div class="glass" style="padding: 20px; margin-bottom: 20px;">
+          <div style="display: flex; flex-wrap: wrap; gap: 15px; align-items: center;">
+            <div class="search-box" style="flex: 1; min-width: 250px;">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="admin-search-input" placeholder="Tìm kiếm món trong danh sách quản lý...">
+            </div>
+            <select class="filter-select" id="admin-filter-category" style="min-width: 180px;">
+              <option value="">Tất cả danh mục</option>
+              <option value="Món chính">Món chính</option>
+              <option value="Món phụ">Món phụ</option>
+              <option value="Tráng miệng">Tráng miệng</option>
+              <option value="Đồ uống">Đồ uống</option>
+              <option value="Khai vị">Khai vị</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- === BẢNG DANH SÁCH === -->
+        <div class="glass" style="padding:24px;overflow:hidden;">
+          <h2 style="margin-bottom:20px;font-size:1.2rem;">📋 Danh Sách Thực Đơn</h2>
+          <div class="table-wrapper" id="table-wrapper">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Ảnh</th>
+                  <th>Tên món</th>
+                  <th>Danh mục</th>
+                  <th>Giá</th>
+                  <th>Kho</th>
+                  <th>Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="product-table-body">
+                <!-- Render bởi JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- === FOOTER === -->
+  <footer class="footer">
+    <div class="container">
+      <p>© 2026 FoodieMenu — Thiết kế bởi Nhóm 2 FIT-DNU</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
