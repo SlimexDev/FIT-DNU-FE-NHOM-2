@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
   <title>FoodieMenu - Thực Đơn Nhà Hàng</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
 
   <!-- === NAVBAR === -->
@@ -46,12 +48,35 @@
     </div>
   </section>
 
+  <!-- === FEATURED DISHES SECTION === -->
+  <section class="container featured-section">
+    <div class="featured-header">
+      <h2>Món Ăn Nổi Bật</h2>
+      <div class="featured-controls">
+        <button id="featured-prev" class="btn-scroll">&larr;</button>
+        <button id="featured-next" class="btn-scroll">&rarr;</button>
+      </div>
+    </div>
+    <div class="featured-scroll" id="featured-scroll">
+      <!-- Các card món ăn nổi bật sẽ được JS render vào đây -->
+    </div>
+  </section>
+
   <!-- === PRODUCT GRID === -->
   <section class="container">
+    <div class="featured-header">
+      <h2>Danh Sách Món Ăn</h2>
+    </div>
     <div class="product-grid" id="product-grid">
       <!-- Sản phẩm sẽ được render bởi JS -->
     </div>
   </section>
+
+  <!-- === MASCOT PET === -->
+  <div id="mascot-pet" class="mascot-pet">
+    <div class="mascot-tooltip" id="mascot-tooltip">Em đói quá, order món đi! 🍔</div>
+    <div class="mascot-body" id="mascot-body">🐮</div>
+  </div>
 
   <!-- === MODAL CHI TIẾT === -->
   <div class="modal-overlay" id="product-modal">
@@ -74,8 +99,10 @@
   </footer>
 
   <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="js/api.js"></script>
   <script src="js/utils.js"></script>
   <script src="js/main.js"></script>
 </body>
+
 </html>

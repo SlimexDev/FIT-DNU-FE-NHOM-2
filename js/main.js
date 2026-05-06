@@ -29,7 +29,6 @@ function renderProductCard(sanPham, index) {
       <div class="card-image-wrapper">
         <img src="${hinhAnh}" alt="${sanPham.name}" class="card-image" 
              onerror="this.src='https://placehold.co/400x300/1a1025/8b5cf6?text=No+Image'">
-        <div class="card-badge">${stockBadge}</div>
       </div>
       <div class="card-body">
         <span class="card-category">${sanPham.category || "Chưa phân loại"}</span>
@@ -70,6 +69,78 @@ function hienThiSanPham(danhSach) {
     htmlContent += renderProductCard(danhSach[i], i);
   }
   grid.innerHTML = htmlContent;
+}
+
+// === Hàm hiển thị món ăn nổi bật ===
+/**
+ * Render thanh ngang món ăn nổi bật và xử lý auto scroll bằng jQuery
+ * @param {Array} danhSach - Mảng sản phẩm 
+ */
+function hienThiMonAnNoiBat(danhSach) {
+  const scrollContainer = $("#featured-scroll");
+  if (!scrollContainer.length) return;
+
+  // Lấy 8 món đầu tiên
+  const featured = danhSach.slice(0, 8);
+
+  let htmlContent = "";
+  for (let i = 0; i < featured.length; i++) {
+    const sp = featured[i];
+    const gia = formatPrice(Number(sp.price) || 0);
+    const hinhAnh = sp.image || "https://placehold.co/400x300/1a1025/8b5cf6?text=No+Image";
+
+    htmlContent += `
+      <div class="glass-card featured-card" data-id="${sp.id}" onclick="moModalChiTiet('${sp.id}')">
+        <span class="badge badge-hot card-badge">Hot</span>
+        <div class="card-image-wrapper">
+          <img src="${hinhAnh}" alt="${sp.name}" class="card-image" onerror="this.src='https://placehold.co/400x300/1a1025/8b5cf6?text=No+Image'">
+        </div>
+        <div class="card-body">
+          <span class="card-category" style="margin-bottom:4px; padding:2px 8px; font-size:0.65rem; border-radius:20px; background:rgba(139,92,246,0.15); color:var(--primary-light); border:1px solid rgba(139,92,246,0.25); display:inline-block;">${sp.category || "Signature"}</span>
+          <h3 class="card-title">${sp.name || "Chưa có tên"}</h3>
+          <span class="card-price">${gia}</span>
+        </div>
+      </div>
+    `;
+  }
+
+  scrollContainer.html(htmlContent);
+
+  // === Khởi tạo jQuery Auto Scroll ===
+  let isHovered = false;
+  let scrollStep = 1;
+  let scrollInterval;
+
+  function startScroll() {
+    scrollInterval = setInterval(() => {
+      if (!isHovered) {
+        let el = scrollContainer[0];
+        let maxScroll = el.scrollWidth - el.clientWidth;
+
+        // Nếu scroll đến cuối, quay lại đầu
+        if (el.scrollLeft >= maxScroll - 1) {
+          el.scrollLeft = 0;
+        } else {
+          el.scrollLeft += scrollStep;
+        }
+      }
+    }, 30); // Tốc độ chạy
+  }
+
+  startScroll();
+
+  // Dừng scroll khi hover
+  scrollContainer.on("mouseenter", () => isHovered = true);
+  scrollContainer.on("mouseleave", () => isHovered = false);
+
+  // Điều khiển bằng nút
+  $("#featured-next").on("click", function () {
+    scrollContainer.animate({ scrollLeft: "+=335" }, 300);
+  });
+
+  $("#featured-prev").on("click", function () {
+    scrollContainer.animate({ scrollLeft: "-=335" }, 300);
+  });
 }
 
 // === Hàm load danh mục vào filter ===
@@ -272,6 +343,134 @@ function dangKySuKien() {
       dongModal();
     }
   });
+
+  // Hiệu ứng scroll navbar
+  window.addEventListener("scroll", () => {
+    const navbar = document.getElementById("navbar");
+    if (navbar) {
+      if (window.scrollY > 50) {
+        navbar.classList.add("scrolled");
+      } else {
+        navbar.classList.remove("scrolled");
+      }
+    }
+  });
+}
+
+// === Hàm khởi tạo Mascot Pet ===
+function initMascotPet() {
+  const mascot = $("#mascot-pet");
+  const tooltip = $("#mascot-tooltip");
+  const body = $("#mascot-body");
+
+  if (!mascot.length) return;
+
+  const tooltips = [
+    "Em đói quá, order món đi! 🍔",
+    "Món Gà Rang Muối ngon lắm nè! 🍗",
+    "Thực đơn hôm nay tuyệt vời! ✨",
+    "Moo moo~ Chúc bạn ngon miệng! 🐮",
+    "Click vào món ăn để xem chi tiết nhé!",
+    "Nhi Bếu🐷!",
+    "Ngọc cho🐕!!"
+  ];
+
+  let moveInterval;
+  let hideTimeout;
+
+  function getRandomPos() {
+    const ww = $(window).width() - 100;
+    const wh = $(window).height() - 150;
+    const x = Math.max(20, Math.floor(Math.random() * ww));
+    const y = Math.max(80, Math.floor(Math.random() * wh)); // 80 to avoid navbar
+    return { x, y };
+  }
+
+  function moveMascot() {
+    if (mascot.hasClass("hidden")) return;
+
+    const pos = getRandomPos();
+    const currentX = parseInt(mascot.css("left")) || $(window).width() - 100;
+
+    // Flip based on direction
+    if (pos.x < currentX) {
+      body.css("transform", "scaleX(1)");
+    } else {
+      body.css("transform", "scaleX(-1)");
+    }
+
+    mascot.css({
+      "left": pos.x + "px",
+      "top": pos.y + "px",
+      "bottom": "auto",
+      "right": "auto"
+    });
+
+    // Thỉnh thoảng nhảy lên
+    if (Math.random() > 0.7) {
+      setTimeout(() => {
+        mascot.addClass("jumping");
+        setTimeout(() => mascot.removeClass("jumping"), 500);
+      }, 500);
+    }
+  }
+
+  function scheduleMove() {
+    clearInterval(moveInterval);
+    moveInterval = setInterval(moveMascot, 5000 + Math.random() * 4000); // 5s - 9s
+  }
+
+  function scheduleHide() {
+    clearTimeout(hideTimeout);
+    hideTimeout = setTimeout(() => {
+      mascot.addClass("hidden");
+
+      // Hiện lại sau 15-20s ở vị trí ngẫu nhiên
+      setTimeout(() => {
+        const pos = getRandomPos();
+        mascot.css({ left: pos.x, top: pos.y, bottom: "auto", right: "auto" });
+        mascot.removeClass("hidden");
+        scheduleHide();
+      }, 15000 + Math.random() * 5000);
+
+    }, 35000); // Ẩn sau 35s
+  }
+
+  // Hover effect
+  mascot.on("mouseenter", () => {
+    body.text("🤩");
+    clearInterval(moveInterval); // Dừng di chuyển khi hover
+    clearTimeout(hideTimeout);
+  });
+
+  mascot.on("mouseleave", () => {
+    body.text("🐮");
+    scheduleMove();
+    scheduleHide();
+  });
+
+  // Click effect
+  mascot.on("click", () => {
+    const randomTip = tooltips[Math.floor(Math.random() * tooltips.length)];
+    tooltip.text(randomTip);
+    mascot.addClass("show-tooltip jumping");
+
+    setTimeout(() => mascot.removeClass("jumping"), 500);
+    setTimeout(() => mascot.removeClass("show-tooltip"), 3000);
+  });
+
+  // Khởi động
+  setTimeout(() => {
+    mascot.css({
+      left: ($(window).width() - 100) + "px",
+      top: ($(window).height() - 150) + "px",
+      bottom: "auto",
+      right: "auto",
+      position: "fixed"
+    });
+    scheduleMove();
+    scheduleHide();
+  }, 2000); // Bắt đầu sau 2s
 }
 
 // === Hàm khởi tạo ứng dụng ===
@@ -291,10 +490,12 @@ async function khoiTaoApp() {
 
     // Hiển thị sản phẩm và load danh mục
     hienThiSanPham(danhSachSanPham);
+    hienThiMonAnNoiBat(danhSachSanPham);
     loadDanhMuc();
 
     // Đăng ký sự kiện
     dangKySuKien();
+    initMascotPet();
 
     showToast("Tải thực đơn thành công!", "success");
   } catch (error) {

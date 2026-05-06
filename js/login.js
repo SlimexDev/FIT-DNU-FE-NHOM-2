@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (loginForm) {
     loginForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-      
+
       const usernameInput = document.getElementById("username");
       const passwordInput = document.getElementById("password");
       const btnLogin = document.getElementById("btn-login");
@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Gọi API để lấy danh sách tài khoản
         const accounts = await accountAPI.layDanhSach();
-        
+
         // Tìm tài khoản khớp với thông tin đăng nhập
         const account = accounts.find(
           (acc) => acc.username === username && acc.password === password
@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (account) {
           showToast("Đăng nhập thành công!", "success");
-          
+
           // Mã hóa thông tin thành chuỗi base64 để truyền an toàn qua URL
           const token = btoa(JSON.stringify({
             id: account.id,
